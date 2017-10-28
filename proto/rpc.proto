@@ -1,0 +1,24 @@
+package rpc;
+
+message RPCMessage  {
+    // 消息头部
+    required Head head = 1;
+    // 消息内容
+    required Body body = 2;
+};
+
+message Head {
+    // 请求 uuid
+    required string session_no = 1;
+    // 请求消息类型
+    required int32 message_type = 2;
+};
+
+message Body {
+    extensions 1000 to max;
+};
+
+message ResponseCode {
+    required int32 retcode = 1;            // 返回码
+    optional string error_messgae = 2;     // 返回失败时，错误信息
+};

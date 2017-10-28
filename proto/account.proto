@@ -1,0 +1,85 @@
+package rpc.account;
+
+import "rpc.proto";
+
+enum MessageType {
+    CREATE_ACCOUNT_REQUEST = 1001;
+    CREATE_ACCOUNT_RESPONSE = 1002;
+    DELETE_ACCOUNT_REQUEST = 1003;
+    DELETE_ACCOUNT_RESPONSE = 1004;
+    GET_ACCOUNT_INFO_REQUEST = 1005;
+    GET_ACCOUNT_INFO_RESPONSE = 1006;
+    SET_ACCOUNT_NAME_REQUEST = 1007;
+    SET_ACCOUNT_NAME_RESPONSE = 1008;
+    SET_ACCOUNT_PASSWD_REQUEST = 1009;
+    SET_ACCOUNT_PASSWD_RESPONSE = 1010;
+};
+
+extend rpc.Body {
+    optional CreateAccountRequest create_account_request = 1001;
+    optional CreateAccountResponse create_account_response = 1002;
+    optional DeleteAccountRequest delete_account_request = 1003;
+    optional DeleteAccountResponse delete_account_response = 1004;
+    optional GetAccountInfoRequest get_account_info_request = 1005;
+    optional GetAccountInfoResponse get_account_info_response = 1006;
+    optional SetAccountNameRequest set_account_name_request = 1007;
+    optional SetAccountNameResponse set_account_name_response = 1008;
+    optional SetAccountPasswdRequest set_account_passwd_resquest = 1009;
+    optional SetAccountPasswdResponse set_account_passwd_response = 1010;
+};
+
+// account 结构
+message Account {
+    required uint32 id = 1;      // 账户唯一标识
+    required uint32 set = 2;     // 账户分区
+    required string email = 3;   // 账户 email
+    required string name = 4;    // 用户名
+    required string passwd = 5;  // 密码
+    optional string phone = 6;   // 手机号
+};
+
+// account 相关操作接口
+message CreateAccountRequest {
+    required string email = 1;
+    optional string name = 2;    // 不指定则为 email
+    optional string passwd = 3;  // 初始密码为 email
+};
+
+message CreateAccountResponse {
+    required ResponseCode rc = 1;
+};
+
+message DeleteAccountRequest {
+    required uint32 id = 1;      // account id
+};
+
+message DeleteAccountResponse {
+    required ResponseCode rc = 1;
+};
+
+message GetAccountInfoRequest {
+    required uint32 id = 1;      // account id
+};
+
+message GetAccountInfoResponse {
+    required ResponseCode rc = 1;
+    optional Account info = 2;
+};
+
+message SetAccountNameRequest {
+    required uint32 id = 1;      // account id
+    required string old_name = 2;
+    required string new_name = 3;
+};
+
+message SetAccountNameResponse {
+    required ResponseCode rc = 1;
+};
+
+message SetAccountPasswdRequest {
+    required uint32 id = 1;      // account id
+};
+
+message SetAccountPasswdResponse {
+    required ResponseCode rc = 1;
+};
